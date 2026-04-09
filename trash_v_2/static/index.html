@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Illegal Dumping Detection — University of Bradford</title>
+<style>
+/* ── Reset & base ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:        #0d1117;
+  --surface:   #161b22;
+  --border:    #30363d;
+  --accent:    #1a7fc1;
+  --accent2:   #1f9553;
+  --danger:    #cf222e;
+  --warn:      #d29922;
+  --text:      #e6edf3;
+  --muted:     #8b949e;
+  --radius:    8px;
+}
+body { background: var(--bg); color: var(--text); font-family: "Segoe UI", system-ui, sans-serif; font-size: 14px; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+
+/* ── Navbar ───────────────────────────────────────────────────────────── */
+nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px;
+  height: 52px;
+  display: flex; align-items: center; gap: 16px;
+  flex-shrink: 0;
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; }
+.nav-logo svg { width:28px; height:28px; }
+.nav-title { font-size: 16px; font-weight: 600; letter-spacing: .3px; }
+.nav-subtitle { font-size: 11px; color: var(--muted); margin-top:1px; }
+.nav-spacer { flex:1; }
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 20px; padding: 3px 10px; font-size: 12px;
+}
+.badge .dot { width:8px; height:8px; border-radius:50%; background:var(--accent2); }
+.badge .dot.warn { background:var(--warn); }
+.badge .dot.danger { background:var(--danger); animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ── Layout ───────────────────────────────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  grid-template-rows: 1fr auto;
+  flex: 1;
+  overflow: hidden;
+  gap: 0;
+}
+/* left: grid + add-panel stacked */
+.left-col { display: flex; flex-direction: column; overflow: hidden; }
+
+/* ── Camera grid ───────────────────────────────────────────────────────── */
+.camera-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 6px;
+  padding: 10px;
+  flex: 1;
+  overflow: hidden;
+}
+.camera-cell {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color .3s;
+  min-height: 0;
+}
+.camera-cell.flash-trash { border-color: var(--danger) !important; }
+.camera-cell.status-error { border-color: var(--warn); }
+.camera-cell .cell-label {
+  position: absolute; top:6px; left:8px; z-index:2;
+  background: rgba(0,0,0,.65); padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; max-width: calc(100% - 16px);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.camera-cell .cell-status {
+  position: absolute; top:6px; right:8px; z-index:2;
+  width:10px; height:10px; border-radius:50%; border: 1.5px solid #fff3;
+}
+.camera-cell .cell-status.running { background: var(--accent2); animation: pulse 2s infinite; }
+.camera-cell .cell-status.stopped { background: var(--muted); }
+.camera-cell .cell-status.error   { background: var(--danger); animation: pulse 1s infinite; }
+.camera-cell .cell-actions {
+  position: absolute; bottom:0; left:0; right:0; z-index:2;
+  display: flex; gap:4px; padding:4px 6px;
+  background: linear-gradient(transparent, rgba(0,0,0,.7));
+  opacity: 0; transition: opacity .2s;
+}
+.camera-cell:hover .cell-actions { opacity:1; }
+.camera-cell img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block;
+}
+.camera-cell .empty-slot {
+  text-align:center; color:var(--muted);
+}
+.camera-cell .empty-slot svg { width:40px; height:40px; opacity:.3; margin-bottom:8px; }
+.camera-cell .empty-slot p { font-size:12px; }
+
+/* ── Add camera panel ────────────────────────────────────────────────── */
+.add-panel {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 10px 14px;
+  display: flex; flex-direction:column; gap: 8px;
+}
+.add-panel h3 { font-size: 12px; text-transform: uppercase; letter-spacing:.8px; color: var(--muted); }
+.add-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.add-row input, .add-row select {
+  flex: 1; min-width: 120px;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text); padding: 6px 10px; font-size: 13px;
+}
+.add-row input:focus, .add-row select:focus { outline: none; border-color: var(--accent); }
+.add-row input::placeholder { color: var(--muted); }
+
+/* ── Sidebar ──────────────────────────────────────────────────────────── */
+.sidebar {
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  grid-row: 1 / 3;
+  overflow: hidden;
+}
+.sidebar-header {
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+  flex-shrink: 0;
+}
+.sidebar-header h2 { font-size: 13px; font-weight: 600; flex:1; }
+.sidebar-header .clear-btn {
+  font-size: 11px; color: var(--muted); background: none; border: none;
+  cursor: pointer; padding: 2px 6px; border-radius: 4px;
+}
+.sidebar-header .clear-btn:hover { background: var(--border); color: var(--text); }
+
+.event-log {
+  flex: 1; overflow-y: auto; padding: 8px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.event-log::-webkit-scrollbar { width: 4px; }
+.event-log::-webkit-scrollbar-track { background: transparent; }
+.event-log::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.event-item {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; padding: 8px 10px;
+  display: grid; grid-template-columns: 44px 1fr; gap: 8px;
+  cursor: pointer; transition: border-color .2s;
+}
+.event-item:hover { border-color: var(--accent); }
+.event-item.new { border-color: var(--danger); }
+.event-thumb {
+  width:44px; height:44px; border-radius:4px; object-fit:cover;
+  background: var(--border);
+}
+.event-thumb-placeholder {
+  width:44px; height:44px; border-radius:4px;
+  background: var(--border); display:flex; align-items:center; justify-content:center;
+  font-size:20px;
+}
+.event-details .ev-cam  { font-size: 11px; color: var(--accent); font-weight:600; }
+.event-details .ev-time { font-size: 10px; color: var(--muted); }
+.event-details .ev-conf {
+  font-size: 11px; margin-top: 2px;
+  color: var(--danger); font-weight: 600;
+}
+.event-details .ev-conf span.ok { color: var(--accent2); }
+
+.no-events { text-align:center; color: var(--muted); padding:30px 10px; font-size:12px; }
+
+/* ── Buttons ──────────────────────────────────────────────────────────── */
+.btn {
+  display:inline-flex; align-items:center; gap:4px;
+  padding: 5px 12px; border-radius:6px; border:none; cursor:pointer;
+  font-size:12px; font-weight:600; transition: opacity .15s;
+}
+.btn:hover { opacity:.85; }
+.btn:active { opacity:.7; }
+.btn-primary { background: var(--accent); color:#fff; }
+.btn-success { background: var(--accent2); color:#fff; }
+.btn-danger  { background: var(--danger);  color:#fff; }
+.btn-muted   { background: var(--border);  color: var(--text); }
+.btn-sm { padding: 3px 8px; font-size: 11px; }
+
+/* ── Toast ────────────────────────────────────────────────────────────── */
+#toast-container {
+  position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+  display: flex; flex-direction: column; gap: 8px; align-items: flex-end;
+}
+.toast {
+  background: var(--danger); color:#fff;
+  padding: 10px 16px; border-radius: 8px;
+  font-size: 13px; font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0,0,0,.5);
+  animation: slideIn .3s ease, fadeOut .4s 3.6s forwards;
+  max-width: 320px;
+}
+.toast.info { background: var(--accent); }
+@keyframes slideIn { from { transform: translateX(40px); opacity:0; } to { transform:none; opacity:1; } }
+@keyframes fadeOut { to { opacity:0; transform: translateX(20px); } }
+
+/* ── Modal ────────────────────────────────────────────────────────────── */
+#modal-overlay {
+  display:none; position:fixed; inset:0; z-index:1000;
+  background: rgba(0,0,0,.8); align-items:center; justify-content:center;
+}
+#modal-overlay.open { display:flex; }
+#modal-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; max-width: 700px; width:90%; padding: 20px;
+  position:relative;
+}
+#modal-box img { width:100%; border-radius:6px; margin-bottom:12px; }
+#modal-box .modal-meta { font-size: 13px; color: var(--muted); line-height:1.6; }
+#modal-close {
+  position:absolute; top:12px; right:14px;
+  background:none; border:none; color:var(--muted); font-size:22px; cursor:pointer;
+}
+#modal-close:hover { color:var(--text); }
+</style>
+</head>
+<body>
+
+<!-- ── Navbar ─────────────────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-logo">
+    <!-- CCTV camera icon -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8">
+      <path d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.894L15 14M3 8h12v8H3z" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="7" cy="12" r="1.5" fill="var(--accent)"/>
+    </svg>
+    <div>
+      <div class="nav-title">Illegal Dumping Detection</div>
+      <div class="nav-subtitle">University of Bradford — AI Monitoring System</div>
+    </div>
+  </div>
+  <div class="nav-spacer"></div>
+  <div class="badge"><span class="dot" id="cam-dot"></span><span id="cam-count">0 cameras</span></div>
+  <div class="badge"><span class="dot danger" id="alert-dot" style="display:none"></span><span id="alert-count">0 alerts</span></div>
+</nav>
+
+<!-- ── Main layout ────────────────────────────────────────────────────────── -->
+<div class="layout">
+
+  <!-- Left column: grid + add panel -->
+  <div class="left-col">
+    <div class="camera-grid" id="camera-grid">
+      <!-- 4 placeholder slots rendered by JS -->
+    </div>
+
+    <!-- Add camera panel -->
+    <div class="add-panel">
+      <h3>+ Add Camera</h3>
+      <div class="add-row">
+        <input id="cam-name"   type="text"   placeholder="Camera name (e.g. Main Entrance)"/>
+        <input id="cam-source" type="text"   placeholder="Source: path/to/video.mp4 or rtsp://…"/>
+        <button class="btn btn-primary" onclick="addCamera()">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar: event log -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>🚨 Trash Events</h2>
+      <button class="clear-btn" onclick="clearLog()">Clear</button>
+    </div>
+    <div class="event-log" id="event-log">
+      <div class="no-events" id="no-events-msg">No events yet.<br>Add a camera to start monitoring.</div>
+    </div>
+  </aside>
+
+</div><!-- /layout -->
+
+<!-- ── Toast container ───────────────────────────────────────────────────── -->
+<div id="toast-container"></div>
+
+<!-- ── Modal ─────────────────────────────────────────────────────────────── -->
+<div id="modal-overlay" onclick="closeModal(event)">
+  <div id="modal-box">
+    <button id="modal-close" onclick="closeModal()">×</button>
+    <img id="modal-img" src="" alt="Snapshot"/>
+    <div class="modal-meta" id="modal-meta"></div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// State
+// ─────────────────────────────────────────────────────────────────────────────
+let cameras = {};     // id → {id, name, source, status, ...}
+let alertCount = 0;
+let eventItems = [];  // for clear
+const MAX_LOG_ITEMS = 100;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DOM helpers
+// ─────────────────────────────────────────────────────────────────────────────
+const $  = id => document.getElementById(id);
+const grid = () => $('camera-grid');
+const log  = () => $('event-log');
+
+function toast(msg, type = 'danger') {
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.textContent = msg;
+  $('toast-container').appendChild(el);
+  setTimeout(() => el.remove(), 4100);
+}
+
+function showToast(msg, type) { toast(msg, type); }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Camera grid rendering
+// ─────────────────────────────────────────────────────────────────────────────
+const SLOTS = 4;
+
+function renderGrid() {
+  const g = grid();
+  g.innerHTML = '';
+  const ids = Object.keys(cameras);
+
+  for (let i = 0; i < SLOTS; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'camera-cell';
+    const id = ids[i];
+
+    if (id) {
+      const cam = cameras[id];
+      cell.id = `cell-${id}`;
+      cell.dataset.camId = id;
+
+      // Status dot
+      const dot = document.createElement('div');
+      dot.className = `cell-status ${cam.status}`;
+      dot.id = `dot-${id}`;
+      cell.appendChild(dot);
+
+      // Label
+      const lbl = document.createElement('div');
+      lbl.className = 'cell-label';
+      lbl.textContent = cam.name;
+      cell.appendChild(lbl);
+
+      // Video feed (MJPEG)
+      const img = document.createElement('img');
+      img.src = `/video/${id}`;
+      img.alt = cam.name;
+      img.onerror = () => { img.src = ''; };
+      cell.appendChild(img);
+
+      // Actions bar
+      const actions = document.createElement('div');
+      actions.className = 'cell-actions';
+      if (cam.status === 'running') {
+        actions.innerHTML = `
+          <button class="btn btn-muted btn-sm" onclick="stopCamera('${id}')">⏸ Stop</button>
+          <button class="btn btn-danger btn-sm" onclick="removeCamera('${id}')">✕ Remove</button>`;
+      } else {
+        actions.innerHTML = `
+          <button class="btn btn-success btn-sm" onclick="startCamera('${id}')">▶ Start</button>
+          <button class="btn btn-danger btn-sm" onclick="removeCamera('${id}')">✕ Remove</button>`;
+      }
+      cell.appendChild(actions);
+
+    } else {
+      // Empty slot
+      cell.innerHTML = `
+        <div class="empty-slot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="7" width="15" height="10" rx="2"/><path d="M17 9l2.447-1.11A1 1 0 0121 8.87v6.26a1 1 0 01-1.553.832L17 15"/>
+          </svg>
+          <p>Empty slot</p>
+        </div>`;
+    }
+    g.appendChild(cell);
+  }
+  updateNavBadges();
+}
+
+function updateNavBadges() {
+  const running = Object.values(cameras).filter(c => c.status === 'running').length;
+  const total   = Object.keys(cameras).length;
+  $('cam-count').textContent = `${total} camera${total !== 1 ? 's' : ''}`;
+  const dot = $('cam-dot');
+  dot.className = running > 0 ? 'dot' : 'dot warn';
+
+  $('alert-count').textContent = `${alertCount} alert${alertCount !== 1 ? 's' : ''}`;
+  $('alert-dot').style.display = alertCount > 0 ? '' : 'none';
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Camera API calls
+// ─────────────────────────────────────────────────────────────────────────────
+async function loadCameras() {
+  const res = await fetch('/api/cameras');
+  const list = await res.json();
+  cameras = {};
+  list.forEach(c => cameras[c.id] = c);
+  renderGrid();
+}
+
+async function addCamera() {
+  const name   = $('cam-name').value.trim();
+  const source = $('cam-source').value.trim();
+  if (!source) { showToast('Source path/URL is required', 'info'); return; }
+
+  const res = await fetch('/api/cameras', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ name: name || 'Camera', source }),
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    showToast('Error: ' + (err.error || res.status), 'info');
+    return;
+  }
+  const cam = await res.json();
+  cameras[cam.id] = cam;
+  $('cam-name').value = '';
+  $('cam-source').value = '';
+  renderGrid();
+  showToast(`Camera "${cam.name}" added`, 'info');
+}
+
+async function removeCamera(id) {
+  await fetch(`/api/cameras/${id}`, { method: 'DELETE' });
+  delete cameras[id];
+  renderGrid();
+}
+
+async function startCamera(id) {
+  const res = await fetch(`/api/cameras/${id}/start`, { method: 'POST' });
+  const cam = await res.json();
+  cameras[id] = cam;
+  renderGrid();
+}
+
+async function stopCamera(id) {
+  const res = await fetch(`/api/cameras/${id}/stop`, { method: 'POST' });
+  const cam = await res.json();
+  cameras[id] = cam;
+  renderGrid();
+}
+
+// Poll camera statuses every 5 s
+setInterval(async () => {
+  if (Object.keys(cameras).length === 0) return;
+  const res  = await fetch('/api/cameras');
+  const list = await res.json();
+  let changed = false;
+  list.forEach(c => {
+    if (!cameras[c.id] || cameras[c.id].status !== c.status) changed = true;
+    cameras[c.id] = c;
+  });
+  if (changed) renderGrid();
+}, 5000);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Event log
+// ─────────────────────────────────────────────────────────────────────────────
+function addEventToLog(ev, isNew = false) {
+  $('no-events-msg')?.remove();
+
+  const item = document.createElement('div');
+  item.className = 'event-item' + (isNew ? ' new' : '');
+  item.onclick = () => openModal(ev);
+
+  const confPct = Math.round(ev.confidence * 100);
+  const time    = ev.timestamp.replace('T', ' ');
+
+  item.innerHTML = `
+    <img class="event-thumb" src="${ev.snapshot_url}" alt="snap"
+         onerror="this.outerHTML='<div class=event-thumb-placeholder>🗑️</div>'"/>
+    <div class="event-details">
+      <div class="ev-cam">${escHtml(ev.camera_name)}</div>
+      <div class="ev-time">${escHtml(time)}</div>
+      <div class="ev-conf">TRASH DETECTED — ${confPct}% confidence</div>
+    </div>`;
+
+  const logEl = log();
+  logEl.insertBefore(item, logEl.firstChild);
+
+  // cap list length
+  eventItems.unshift(item);
+  if (eventItems.length > MAX_LOG_ITEMS) {
+    eventItems.pop().remove();
+  }
+
+  // flash camera cell
+  const cell = document.getElementById(`cell-${ev.camera_id}`);
+  if (cell) {
+    cell.classList.add('flash-trash');
+    setTimeout(() => cell.classList.remove('flash-trash'), 3000);
+  }
+
+  if (isNew) {
+    alertCount++;
+    updateNavBadges();
+    showToast(`🚨 Trash detected! ${ev.camera_name} (${confPct}%)`);
+  }
+}
+
+function clearLog() {
+  eventItems.forEach(el => el.remove());
+  eventItems = [];
+  alertCount = 0;
+  updateNavBadges();
+  if (!$('no-events-msg')) {
+    const msg = document.createElement('div');
+    msg.id = 'no-events-msg';
+    msg.className = 'no-events';
+    msg.textContent = 'No events yet.';
+    log().appendChild(msg);
+  }
+}
+
+// Load existing events from log on page load
+async function loadRecentEvents() {
+  const res = await fetch('/api/events?n=50');
+  const list = await res.json();
+  list.reverse().forEach(ev => addEventToLog(ev, false));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SSE — live event stream
+// ─────────────────────────────────────────────────────────────────────────────
+function connectSSE() {
+  const source = new EventSource('/events');
+  source.onmessage = e => {
+    try {
+      const ev = JSON.parse(e.data);
+      addEventToLog(ev, true);
+    } catch (_) {}
+  };
+  source.onerror = () => {
+    // reconnect after 3 s (browser retries automatically, but just in case)
+    setTimeout(connectSSE, 3000);
+  };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Modal
+// ─────────────────────────────────────────────────────────────────────────────
+function openModal(ev) {
+  $('modal-img').src = ev.snapshot_url;
+  $('modal-meta').innerHTML = `
+    <strong>Camera:</strong> ${escHtml(ev.camera_name)}<br>
+    <strong>Time:</strong> ${escHtml(ev.timestamp.replace('T',' '))}<br>
+    <strong>Track ID:</strong> ${ev.track_id} &nbsp;
+    <strong>Confidence:</strong> ${Math.round(ev.confidence*100)}%<br>
+    <strong>Frame:</strong> ${ev.frame_idx}
+  `;
+  $('modal-overlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (!e || e.target === $('modal-overlay') || e.target === $('modal-close')) {
+    $('modal-overlay').classList.remove('open');
+  }
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal({target: $('modal-overlay')}); });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Utility
+// ─────────────────────────────────────────────────────────────────────────────
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Init
+// ─────────────────────────────────────────────────────────────────────────────
+(async () => {
+  await loadCameras();
+  await loadRecentEvents();
+  connectSSE();
+})();
+</script>
+</body>
+</html>
