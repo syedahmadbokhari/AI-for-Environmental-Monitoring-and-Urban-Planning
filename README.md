@@ -68,9 +68,6 @@ The system consists of the following components:
 - Accuracy: ~80%  
 - Processing Speed: 15–30 FPS  
 - Latency: <200 ms  
-
----
-
 ## 📁 Project Structure
 
 
@@ -130,34 +127,3 @@ python main.py
 Run dashboard:
 
 streamlit run dashboard/app.py
-📊 Evaluation Metrics
-Accuracy, Precision, Recall, F1-score
-FPS (Frames Per Second)
-Latency
-False Positive Rate
-Detection Rate
-🔒 Ethical Considerations
-No facial recognition used
-Data minimisation applied
-GDPR-compliant design
-Transparency via dashboard and event logs
-🌍 Impact
-Cleaner urban environments
-Reduced manual monitoring
-Improved waste management efficiency
-Increased community safety
-⚠️ Limitations
-Limited dataset may affect accuracy
-Performance depends on hardware
-Environmental conditions (lighting, occlusion)
-🚀 Future Work
-Improve dataset and model accuracy
-Edge AI deployment
-Cloud-based SaaS platform
-Multi-camera scalability
-🤝 Contributors
-Your Name
-Team Members
-📜 License
-
-This project is for academic and research purposes only.
