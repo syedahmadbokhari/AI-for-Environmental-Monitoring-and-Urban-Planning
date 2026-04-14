@@ -68,18 +68,15 @@ The system consists of the following components:
 - Accuracy: ~80%  
 - Processing Speed: 15–30 FPS  
 - Latency: <200 ms  
-## 📁 Project Structure
-
-
 illegal-dumping-detection/
 │
 ├── src/
-│ ├── detection/
-│ ├── classification/
-│ ├── pipeline/
-│ ├── backend/
-│ ├── database/
-│ └── utils/
+│   ├── detection/
+│   ├── classification/
+│   ├── pipeline/
+│   ├── backend/
+│   ├── database/
+│   └── utils/
 │
 ├── dashboard/
 ├── models/
@@ -87,17 +84,15 @@ illegal-dumping-detection/
 ├── tests/
 │
 ├── docs/
-│ ├── project_management/
-│ ├── design/
-│ ├── evaluation/
-│ ├── ethics/
-│ └── report/
+│   ├── project_management/
+│   ├── design/
+│   ├── evaluation/
+│   ├── ethics/
+│   └── report/
 │
 ├── main.py
 ├── requirements.txt
 └── README.md
-
-
 ---
 
 ## 🔄 Version Control
