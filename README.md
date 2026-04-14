@@ -82,16 +82,26 @@ environment-monitoring-system/
 └── README.md
 ```
 
-Version control was managed using Git, enabling iterative development and collaboration.
+---
 
-Version	Description
-v1.0	Initial pipeline
-v2.0	Motion detection implemented
-v3.0	Classification integrated
-v4.0	Backend system developed
-v5.0	Dashboard implemented
-v6.0	Final optimised system
-▶️ Installation
+## 🔄 Version Control
+
+Version control was managed using **Git**, enabling iterative development and collaboration.
+
+| Version | Description |
+|--------|------------|
+| v1.0 | Initial pipeline |
+| v2.0 | Motion detection implemented |
+| v3.0 | Classification integrated |
+| v4.0 | Backend system developed |
+| v5.0 | Dashboard implemented |
+| v6.0 | Final optimised system |
+
+---
+
+## ▶️ Installation
+
+```bash
 git clone https://github.com/your-username/illegal-dumping-detection.git
 cd illegal-dumping-detection
 pip install -r requirements.txt
@@ -123,20 +133,3 @@ Your Team Name / Members
 📄 License
 
 This project is for academic purposes.
-
-
----
-
-# 🔥 What I Fixed
-
-✔ Closed all broken code blocks  
-✔ Fixed formatting of installation/usage  
-✔ Made headings consistent  
-✔ Improved spacing (GitHub readability)  
-✔ Ensured it renders cleanly  
-
----
-
-# 🚀 Optional Improvement (if you want extra polish)
-
-Rename root folder:
