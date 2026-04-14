@@ -1,101 +1,84 @@
-# 🧠 AI-Powered Environment-Monitoring-System
+# 🧠 AI-Powered Illegal Dumping Detection System
 
-An AI-based real-time monitoring system that detects illegal dumping using CCTV footage and computer vision techniques. The system transforms traditional surveillance into an automated, intelligent solution for smart city environments.
+An AI-based real-time monitoring system designed to detect illegal dumping using CCTV video streams. The system combines computer vision, deep learning, and a modular backend to generate alerts and provide actionable insights through a dashboard.
 
 ---
 
 ## 🚀 Overview
 
-This project implements a **multi-stage computer vision pipeline** to detect illegal dumping events in real time. It combines motion detection, object tracking, and deep learning classification to improve accuracy and reduce false positives.
-
-The system provides:
-- 📡 Real-time monitoring  
-- 🚨 Automated alerts  
-- 📊 Data visualisation and analytics  
+Illegal dumping is a growing urban issue that leads to environmental damage and increased operational costs. This project presents a real-time AI solution that automates detection using CCTV feeds, reducing reliance on manual monitoring.
 
 ---
 
-## 🏗️ System Architecture
+## ⚙️ Key Features
 
-The system consists of the following components:
-
-- 📷 **CCTV Input** – Captures live video streams  
-- 🧠 **AI Processing Pipeline** – Motion detection, object tracking, classification (MobileNetV3)  
-- ⚠️ **Event Generation** – Creates structured event data (timestamp, confidence)  
-- 🖥 **Backend System (Flask)** – API handling and data processing  
-- 💾 **Database** – Stores events and logs  
-- 📊 **Dashboard (Streamlit)** – Displays alerts, trends, and insights  
-
----
-
-## ⚙️ Features
-
-- Real-time video processing (15–30 FPS)  
-- Motion detection and object tracking  
-- Waste classification using MobileNetV3  
-- Automated event generation  
-- Backend API integration  
-- Interactive dashboard with analytics  
-- GIS-based visualisation (optional)  
+- 🎥 Real-time CCTV video processing  
+- 🧠 Motion detection and object tracking  
+- 🗑️ Waste classification using MobileNetV3  
+- ⚡ Event detection and alert generation  
+- 🌐 Backend API with Flask  
+- 📊 Interactive dashboard (Streamlit)  
+- 🗺️ GIS-based visualisation  
 
 ---
 
-## 🧠 Technology Stack
+## 🏗️ System Pipeline
 
-- **Python**  
-- **OpenCV** – video processing  
-- **TensorFlow / PyTorch** – deep learning  
-- **Flask** – backend API  
-- **Streamlit** – dashboard UI  
-
----
-
-## 🔄 How It Works
-
-1. Capture video frames from CCTV  
-2. Detect motion in the scene  
-3. Track moving objects  
-4. Identify stationary objects  
-5. Classify objects as waste/non-waste  
-6. Generate event with metadata  
-7. Send data to backend and store  
-8. Display alerts and analytics on dashboard  
+1. Video input from CCTV  
+2. Motion detection filters frames  
+3. Object tracking monitors behaviour  
+4. Stationary objects are classified  
+5. Waste detection triggers event  
+6. Event sent to backend  
+7. Dashboard updates in real time  
 
 ---
 
-## 📊 Performance
+## 📁 Project Structure
 
-- Accuracy: ~80%  
-- Processing Speed: 15–30 FPS  
-- Latency: <200 ms
-  ---
-   
-illegal-dumping-detection/
+```plaintext
+environment-monitoring-system/
+│
+├── trash_v_0/                # Initial prototype version
+├── trash_v_1/                # Improved version (testing + tuning)
+├── trash_v_2/                # Final version (optimized pipeline)
 │
 ├── src/
-│   ├── detection/
-│   ├── classification/
-│   ├── pipeline/
-│   ├── backend/
-│   ├── database/
-│   └── utils/
+│   ├── detection/            # Motion detection logic
+│   ├── tracking/             # Object tracking algorithms
+│   ├── classification/       # CNN model (MobileNetV3)
+│   ├── pipeline/             # Full processing pipeline
+│
+├── backend/
+│   ├── api/                  # Flask API endpoints
+│   ├── streaming/            # Event streaming (SSE)
+│
+├── database/
+│   ├── events/               # Stored event data
+│   ├── logs/                 # System logs
 │
 ├── dashboard/
+│   ├── app.py                # Streamlit dashboard
+│
 ├── models/
+│   ├── mobilenetv3/          # Trained model files
+│
 ├── data/
-├── tests/
+│   ├── raw/                  # Raw dataset
+│   ├── processed/            # Processed dataset
+│
+├── utils/                    # Helper functions
+├── tests/                    # Testing scripts
 │
 ├── docs/
-│   ├── project_management/
-│   ├── design/
-│   ├── evaluation/
-│   ├── ethics/
-│   └── report/
+│   ├── design/               # Design phase documents
+│   ├── evaluation/           # Evaluation results
+│   ├── ethics/               # Ethical analysis
+│   ├── project_management/   # PID, planning docs
 │
-├── main.py
-├── requirements.txt
+├── main.py                   # Main entry point
+├── requirements.txt          # Dependencies
 └── README.md
----
 
 ## 🔄 Version Control
 
