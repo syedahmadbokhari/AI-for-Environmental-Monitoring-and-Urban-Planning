@@ -1,4 +1,4 @@
-# 🧠 AI-Powered Illegal Dumping Detection System
+# 🧠 AI-Powered Environment Monitoring System
 
 An AI-based real-time monitoring system designed to detect illegal dumping using CCTV video streams. The system combines computer vision, deep learning, and a modular backend to generate alerts and provide actionable insights through a dashboard.
 
