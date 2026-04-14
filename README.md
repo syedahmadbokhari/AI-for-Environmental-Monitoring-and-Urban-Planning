@@ -79,7 +79,7 @@ environment-monitoring-system/
 ├── main.py                   # Main entry point
 ├── requirements.txt          # Dependencies
 └── README.md
-
+--
 ## 🔄 Version Control
 
 Version control was managed using **Git**, enabling iterative development and collaboration.
