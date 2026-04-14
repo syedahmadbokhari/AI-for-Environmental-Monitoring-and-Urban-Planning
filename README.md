@@ -67,7 +67,9 @@ The system consists of the following components:
 
 - Accuracy: ~80%  
 - Processing Speed: 15–30 FPS  
-- Latency: <200 ms  
+- Latency: <200 ms
+  ---
+   
 illegal-dumping-detection/
 │
 ├── src/
