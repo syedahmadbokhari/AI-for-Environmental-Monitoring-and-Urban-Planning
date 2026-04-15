@@ -113,7 +113,7 @@ python main.py
 
 Run the dashboard:
 
-streamlit run dashboard/app.py
+run dashboard/app.py
 📊 Performance Targets
 Accuracy: ≥ 80%
 Processing Speed: 15–30 FPS
