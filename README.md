@@ -41,7 +41,7 @@ By combining computer vision and deep learning, the system automatically detects
 ## 🏗️ System Architecture
 
 ```markdown
-![System Architecture](diagrams/System%20Architecture%20v2.png)
+![Architecture](diagrams/System%20Architecture%20v2.png)
 ```
 
 ---
