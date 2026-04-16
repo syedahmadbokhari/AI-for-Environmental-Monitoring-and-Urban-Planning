@@ -46,7 +46,8 @@ By combining computer vision and deep learning, the system automatically detects
 
 ## 🧩 Project Architecture Diagram
 
-![Project Architecture](diagrams/Project Architecture Diagram.png)
+![Project Architecture](diagrams/Project%20Architecture%20Diagram.png)
+
 ---
 
 ## 🛠️ Tech Stack
