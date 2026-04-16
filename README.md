@@ -39,12 +39,13 @@ By combining computer vision and deep learning, the system automatically detects
 ---
 ## 🏗️ System Architecture
 
-![System Architecture](https://raw.githubusercontent.com/tsabesoo/Environment-monitoring-system/main/diagrams/System%20Archtecture%20v2.png)
+![System Architecture](https://raw.githubusercontent.com/tsabesoo/Environment-monitoring-system/main/diagrams/System%20Architecture%20v2.png)
+
+---
 
 ## 🧩 Project Architecture Diagram
 
 ![Project Architecture](https://raw.githubusercontent.com/tsabesoo/Environment-monitoring-system/main/diagrams/Project%20Architecture%20Diagram.png)
-```
 
 ---
 
