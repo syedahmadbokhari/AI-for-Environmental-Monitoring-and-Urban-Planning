@@ -4,13 +4,16 @@ An AI-based real-time monitoring system designed to detect illegal dumping using
 
 ---
 
-## 🚀 Overview
+# 🚀 Overview
 
-Illegal dumping is a growing urban issue that leads to environmental damage and increased operational costs. This project presents a real-time AI solution that automates detection using CCTV feeds, reducing reliance on manual monitoring.
+Illegal dumping is a growing urban issue causing environmental damage and increased operational costs.  
+This project presents a real-time AI-powered monitoring system that transforms CCTV into an intelligent detection tool.
+
+By combining computer vision and deep learning, the system automatically detects illegal dumping events, generates alerts, and provides actionable insights through a dashboard.
 
 ---
 
-## ⚙️ Key Features
+# ⚙️ Key Features
 
 - 🎥 Real-time CCTV video processing  
 - 🧠 Motion detection and object tracking  
@@ -22,7 +25,7 @@ Illegal dumping is a growing urban issue that leads to environmental damage and 
 
 ---
 
-## 🏗️ System Pipeline
+# 🏗️ System Pipeline
 
 1. Video input from CCTV  
 2. Motion detection filters frames  
@@ -34,72 +37,30 @@ Illegal dumping is a growing urban issue that leads to environmental damage and 
 
 ---
 
-## 📁 Project Structure
+# 🏗️ System Architecture
 
-```plaintext
-environment-monitoring-system/
-│
-├── trash_v_0/                # Initial prototype version
-├── trash_v_1/                # Improved version (testing + tuning)
-├── trash_v_2/                # Final version (optimized pipeline)
-│
-├── src/
-│   ├── detection/            # Motion detection logic
-│   ├── tracking/             # Object tracking algorithms
-│   ├── classification/       # CNN model (MobileNetV3)
-│   ├── pipeline/             # Full processing pipeline
-│
-├── backend/
-│   ├── api/                  # Flask API endpoints
-│   ├── streaming/            # Event streaming (SSE)
-│
-├── database/
-│   ├── events/               # Stored event data
-│   ├── logs/                 # System logs
-│
-├── dashboard/
-│   ├── app.py                # Streamlit dashboard
-│
-├── models/
-│   ├── mobilenetv3/          # Trained model files
-│
-├── data/
-│   ├── raw/                  # Raw dataset
-│   ├── processed/            # Processed dataset
-│
-├── utils/                    # Helper functions
-├── tests/                    # Testing scripts
-│
-├── docs/
-│   ├── design/               # Design phase documents
-│   ├── evaluation/           # Evaluation results
-│   ├── ethics/               # Ethical analysis
-│   ├── project_management/   # PID, planning docs
-│
-├── main.py                   # Main entry point
-├── requirements.txt          # Dependencies
-...
-└── README.md
-```
+![Architecture Diagram](diagrams/System%20Architecture%20v2.png)
 
 ---
 
-## 🔄 Version Control
+# 🧩 Project Architecture Diagram
 
-Version control was managed using **Git**, enabling iterative development and collaboration.
-
-| Version | Description |
-|--------|------------|
-| v1.0 | Initial pipeline |
-| v2.0 | Motion detection implemented |
-| v3.0 | Classification integrated |
-| v4.0 | Backend system developed |
-| v5.0 | Dashboard implemented |
-| v6.0 | Final optimised system |
+![Project Architecture](diagrams/Project%20Architecture%20Diagram.png)
 
 ---
 
-## ▶️ Installation
+# 🛠️ Tech Stack
+
+- **Programming:** Python  
+- **Computer Vision:** OpenCV  
+- **AI Framework:** TensorFlow / PyTorch  
+- **Backend:** Flask  
+- **Frontend:** Streamlit  
+- **Version Control:** Git & GitHub  
+
+---
+
+# ▶️ Installation
 
 ```bash
 git clone https://github.com/your-username/illegal-dumping-detection.git
@@ -113,23 +74,65 @@ python main.py
 
 Run the dashboard:
 
-run dashboard/app.py
-📊 Performance Targets
-Accuracy: ≥ 80%
-Processing Speed: 15–30 FPS
-Latency: < 200 ms
+python dashboard/app.py
+📁 Project Structure
+environment-monitoring-system/
+│
+├── dashboard/               # Streamlit dashboard (added in v3)
+├── data/                    # Dataset (raw + processed)
+├── diagrams/                # System diagrams (architecture, intent, project design)
+├── docs/                    # Design, evaluation, ethics, PM documents
+├── logs/                    # System logs
+├── models/                  # Trained models (MobileNetV3)
+├── src/                     # Core system modules
+├── training/                # Model training scripts
+│
+├── trash_v_0/               # Initial prototype
+├── trash_v_1/               # Motion detection added
+├── trash_v_2/               # Object tracking introduced
+├── trash_v_3/               # Dashboard integration
+├── trash_v_4/               # Backend system added
+├── trash_v_5/               # Event detection improvements
+├── trash_v_6/               # Model optimisation
+├── trash_v_7/               # Final optimised system
+│
+├── main.py                  # Main system entry point
+├── README.md
+🔄 Version Evolution
+
+The system was developed iteratively across multiple versions, following an Agile approach:
+
+Version	Description
+v0.0	Initial concept and basic pipeline setup
+v1.0	Motion detection implemented
+v2.0	Object tracking introduced
+v3.0	Dashboard (Streamlit) integrated
+v4.0	Backend system (Flask API) developed
+v5.0	Event detection and alert system refined
+v6.0	Model optimisation and performance tuning
+v7.0	Full system integration and testing
+v8.0	Final optimised real-time system
 ⚖️ Ethical Considerations
-No facial recognition used
-Data minimisation applied
-Transparent event logging
-Designed in line with GDPR principles
+No facial recognition or identity tracking
+Data minimisation: only relevant event data stored
+Transparent event logging for accountability
+Designed in compliance with GDPR principles
+Ethical risks evaluated using ALTAI framework
+🌍 Impact
+Enables real-time monitoring of illegal dumping
+Reduces manual CCTV workload
+Supports faster response to incidents
+Contributes to cleaner and safer urban environments
+Aligns with smart city initiatives
 🔮 Future Improvements
 Integration of advanced models (e.g., YOLO)
 Cloud deployment for scalability
 Edge AI optimisation
 Improved dataset diversity
 👨‍💻 Authors
+
 Your Team Name / Members
+
 📄 License
 
-This project is for academic purposes.
+This project is developed for academic purposes and demonstration of AI-based real-time monitoring systems.ic purposes.
