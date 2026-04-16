@@ -41,7 +41,7 @@ By combining computer vision and deep learning, the system automatically detects
 ## 🏗️ System Architecture
 
 ```markdown
-![Architecture](diagrams/System%20Architecture%20v2.png)
+[![Architecture](diagrams/System%20Architecture%20v2.png)](https://raw.githubusercontent.com/tsabesoo/Environment-monitoring-system/main/diagrams/System%20Archtecture%20v2.png)
 ```
 
 ---
