@@ -112,9 +112,7 @@ environment-monitoring-system/
 ├── trash_v_4/               # Backend system added
 ├── trash_v_5/               # Event detection improvements
 ├── trash_v_6/               # Model optimisation
-├── trash_v_7/               # System integration & testing
-├── trash_v_8/               # Final optimised system
-│
+├── trash_v_7/               # Final optimised system
 ├── main.py                  # Main system entry point
 ├── README.md
 ```
@@ -133,8 +131,8 @@ environment-monitoring-system/
 | v4.0 | Backend system (Flask API) developed |
 | v5.0 | Event detection and alert system refined |
 | v6.0 | Model optimisation and performance tuning |
-| v7.0 | Full system integration and testing |
-| v8.0 | Final optimised real-time system |
+| v7.0 | Final optimised real-time system |
+
 ```
 
 ---
@@ -170,7 +168,7 @@ environment-monitoring-system/
 
 ## 👨‍💻 Authors
 
-Your Team Name / Members
+Syed Bokhari, Sabal Nemkul, Thatsara Abesooriya
 
 ---
 
