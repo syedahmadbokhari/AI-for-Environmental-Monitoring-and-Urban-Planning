@@ -60,9 +60,7 @@ By combining computer vision and deep learning, the system automatically detects
 
 ---
 
-# ▶️ Installation
-
-```bash
+▶️ Installation
 git clone https://github.com/your-username/illegal-dumping-detection.git
 cd illegal-dumping-detection
 pip install -r requirements.txt
@@ -94,7 +92,8 @@ environment-monitoring-system/
 ├── trash_v_4/               # Backend system added
 ├── trash_v_5/               # Event detection improvements
 ├── trash_v_6/               # Model optimisation
-├── trash_v_7/               # Final optimised system
+├── trash_v_7/               # System integration & testing
+├── trash_v_8/               # Final optimised system
 │
 ├── main.py                  # Main system entry point
 ├── README.md
@@ -135,4 +134,4 @@ Your Team Name / Members
 
 📄 License
 
-This project is developed for academic purposes and demonstration of AI-based real-time monitoring systems.ic purposes.
+This project is developed for academic purposes and demonstration of AI-based real-time monitoring systems.r academic purposes and demonstration of AI-based real-time monitoring systems.ic purposes.
