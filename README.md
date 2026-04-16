@@ -1,68 +1,45 @@
-# 🧠 AI-Powered Environment Monitoring System
+🧠 AI-Powered Environment Monitoring System
 
 An AI-based real-time monitoring system designed to detect illegal dumping using CCTV video streams. The system combines computer vision, deep learning, and a modular backend to generate alerts and provide actionable insights through a dashboard.
 
----
+🚀 Overview
 
-# 🚀 Overview
+Illegal dumping is a growing urban issue causing environmental damage and increased operational costs.
 
-Illegal dumping is a growing urban issue causing environmental damage and increased operational costs.  
 This project presents a real-time AI-powered monitoring system that transforms CCTV into an intelligent detection tool.
 
 By combining computer vision and deep learning, the system automatically detects illegal dumping events, generates alerts, and provides actionable insights through a dashboard.
 
----
+⚙️ Key Features
+🎥 Real-time CCTV video processing
+🧠 Motion detection and object tracking
+🗑️ Waste classification using MobileNetV3
+⚡ Event detection and alert generation
+🌐 Backend API with Flask
+📊 Interactive dashboard (Streamlit)
+🗺️ GIS-based visualisation
+🏗️ System Pipeline
+Video input from CCTV
+Motion detection filters frames
+Object tracking monitors behaviour
+Stationary objects are classified
+Waste detection triggers event
+Event sent to backend
+Dashboard updates in real time
+🏗️ System Architecture
 
-# ⚙️ Key Features
+🧩 Project Architecture Diagram
 
-- 🎥 Real-time CCTV video processing  
-- 🧠 Motion detection and object tracking  
-- 🗑️ Waste classification using MobileNetV3  
-- ⚡ Event detection and alert generation  
-- 🌐 Backend API with Flask  
-- 📊 Interactive dashboard (Streamlit)  
-- 🗺️ GIS-based visualisation  
-
----
-
-# 🏗️ System Pipeline
-
-1. Video input from CCTV  
-2. Motion detection filters frames  
-3. Object tracking monitors behaviour  
-4. Stationary objects are classified  
-5. Waste detection triggers event  
-6. Event sent to backend  
-7. Dashboard updates in real time  
-
----
-
-# 🏗️ System Architecture
-
-![Architecture Diagram](diagrams/System%20Architecture%20v2.png)
-
----
-
-# 🧩 Project Architecture Diagram
-
-![Project Architecture](diagrams/Project%20Architecture%20Diagram.png)
-
----
-
-# 🛠️ Tech Stack
-
-- **Programming:** Python  
-- **Computer Vision:** OpenCV  
-- **AI Framework:** TensorFlow / PyTorch  
-- **Backend:** Flask  
-- **Frontend:** Streamlit  
-- **Version Control:** Git & GitHub  
-
----
-
+🛠️ Tech Stack
+Programming: Python
+Computer Vision: OpenCV
+AI Framework: TensorFlow / PyTorch
+Backend: Flask
+Frontend: Streamlit
+Version Control: Git & GitHub
 ▶️ Installation
-git clone https://github.com/your-username/illegal-dumping-detection.git
-cd illegal-dumping-detection
+git clone https://github.com/tsabesoo/Environment-monitoring-system.git
+cd Environment-monitoring-system
 pip install -r requirements.txt
 ▶️ Usage
 
@@ -99,7 +76,7 @@ environment-monitoring-system/
 ├── README.md
 🔄 Version Evolution
 
-The system was developed iteratively across multiple versions, following an Agile approach:
+The system was developed iteratively using an Agile approach:
 
 Version	Description
 v0.0	Initial concept and basic pipeline setup
@@ -134,4 +111,4 @@ Your Team Name / Members
 
 📄 License
 
-This project is developed for academic purposes and demonstration of AI-based real-time monitoring systems.r academic purposes and demonstration of AI-based real-time monitoring systems.ic purposes.
+This project is developed for educational and research purposes.
