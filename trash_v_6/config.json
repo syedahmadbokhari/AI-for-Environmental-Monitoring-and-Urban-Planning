@@ -1,0 +1,28 @@
+{
+  "settings": {
+    "bg_history": 100,
+    "bg_var_threshold": 10,
+    "min_area": 50,
+    "max_distance": 50.0,
+    "max_missed": 15,
+    "stationary_distance": 5.0,
+    "stationary_min_frames": 2,
+    "threshold": 0.1,
+    "jpeg_quality": 70,
+    "process_every_n": 1
+  },
+  "camera_settings": {
+    "1bf0f3cf": {
+      "process_every_n": 1
+    },
+    "55d7b184": {
+      "threshold": 0.9
+    },
+    "b3df028b": {
+      "threshold": 0.1
+    },
+    "1fd63968": {
+      "threshold": 0.95
+    }
+  }
+}
