@@ -107,8 +107,7 @@ environment-monitoring-system/
 ├── trash_v_3/               # Dashboard integration
 ├── trash_v_4/               # Backend system added
 ├── trash_v_5/               # Event detection improvements
-├── trash_v_6/               # Model optimisation
-├── trash_v_7/               # Final optimised system
+├── trash_v_6/               # Final optimised system
 ├── main.py                  # Main system entry point
 ├── README.md
 ```
@@ -126,8 +125,7 @@ environment-monitoring-system/
 | v3.0 | Dashboard (Streamlit) integrated |
 | v4.0 | Backend system (Flask API) developed |
 | v5.0 | Event detection and alert system refined |
-| v6.0 | Model optimisation and performance tuning |
-| v7.0 | Final optimised real-time system |
+| v6.0 | Final optimised real-time system |
 
 ```
 
