@@ -62,7 +62,7 @@ _device = None
 _settings: Dict[str, Any] = {
     "bg_history":            500,
     "bg_var_threshold":      50,
-    "min_area":              500,
+    "min_area":              50,
     "max_distance":          50.0,
     "max_missed":            15,
     "stationary_distance":   2.0,
@@ -600,7 +600,7 @@ def _load_model_global(model_path: str, threshold: float) -> None:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="CCTV Illegal Dumping Monitoring — Flask server")
-    parser.add_argument("--model",     default="models/best_model.pth", help="Path to MobileNetV3 checkpoint")
+    parser.add_argument("--model",     default="C:/Users/thath/OneDrive - University of Bradford/Industrial AI Project/Environment-monitoring-system/trash_v_6/models/best_model.pth", help="Path to MobileNetV3 checkpoint")
     parser.add_argument("--threshold", type=float, default=0.5,  help="Classifier trash confidence threshold")
     parser.add_argument("--host",      default="0.0.0.0",        help="Bind host")
     parser.add_argument("--port",      type=int,  default=5000,  help="Bind port")
