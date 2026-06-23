@@ -54,9 +54,8 @@ By combining computer vision and deep learning, the system automatically detects
 
 * **Programming:** Python
 * **Computer Vision:** OpenCV
-* **AI Framework:** TensorFlow / PyTorch
-* **Backend:** Flask
-* **Frontend:** Streamlit
+* **AI Framework:** PyTorch + torchvision (MobileNetV3)
+* **Backend:** Flask (REST API, MJPEG streaming, SSE)
 * **Version Control:** Git & GitHub
 
 ---
@@ -64,8 +63,8 @@ By combining computer vision and deep learning, the system automatically detects
 ## ▶️ Installation
 
 ```bash
-git clone https://github.com/tsabesoo/Environment-monitoring-system.git
-cd Environment-monitoring-system
+git clone https://github.com/tsabesoo/ai-for-environmental-monitoring-and-urban-planning.git
+cd ai-for-environmental-monitoring-and-urban-planning
 pip install -r requirements.txt
 ```
 
@@ -73,61 +72,65 @@ pip install -r requirements.txt
 
 ## ▶️ Usage
 
-Run the main system:
+Run the standalone CLI demo (single video file):
 
 ```bash
-python main.py
+python main.py --video videos/video.mp4 --model models/best_model.pth
 ```
 
-Run the dashboard:
+Run the Flask backend (multi-camera dashboard):
 
 ```bash
-python dashboard/app.py
+python dashboard/app.py --model models/best_model.pth
 ```
+
+Then open `http://localhost:5000` in your browser.
 
 ---
 
 ## 📁 Project Structure
 
-```bash
-environment-monitoring-system/
+```
+ai-for-environmental-monitoring-and-urban-planning/
 │
-├── dashboard/               # Streamlit dashboard (added in v3)
+├── core/                    # Core detection modules
+│   ├── __init__.py
+│   ├── classifier.py        # MobileNetV3 inference
+│   └── pipeline.py          # 4-stage detection pipeline + CameraPipeline
+│
+├── dashboard/               # Flask backend + frontend
+│   └── app.py               # REST API + MJPEG streams + SSE events
+│
 ├── data/                    # Dataset (raw + processed)
-├── diagrams/                # System diagrams (architecture, intent, project design)
+├── diagrams/                # System architecture diagrams
 ├── docs/                    # Design, evaluation, ethics, PM documents
-├── logs/                    # System logs
-├── models/                  # Trained models (MobileNetV3)
-├── src/                     # Core system modules
-├── training/                # Model training scripts
+├── logs/                    # Runtime event logs
+├── models/                  # Trained model checkpoints (MobileNetV3)
+├── training/                # Model training scripts (train.ipynb)
+├── videos/                  # Input video files (add your own here)
 │
-├── trash_v_0/               # Initial prototype
-├── trash_v_1/               # Motion detection added
-├── trash_v_2/               # Object tracking introduced
-├── trash_v_3/               # Dashboard integration
-├── trash_v_4/               # Backend system added
-├── trash_v_5/               # Event detection improvements
-├── trash_v_6/               # Final optimised system
-├── main.py                  # Main system entry point
-├── README.md
+├── archive/                 # Prototype versions v0–v7 (historical reference)
+│
+├── config.yaml              # Central configuration (all tunable parameters)
+├── main.py                  # CLI demo entry point (single video)
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
 ## 🔄 Version Evolution
 
-```markdown
 | Version | Description |
-|--------|------------|
-| v0.0 | Initial concept and basic pipeline setup |
-| v1.0 | Motion detection implemented |
-| v2.0 | Object tracking introduced |
-| v3.0 | Dashboard (Streamlit) integrated |
-| v4.0 | Backend system (Flask API) developed |
-| v5.0 | Event detection and alert system refined |
-| v6.0 | Final optimised real-time system |
-
-```
+|---------|-------------|
+| v0 | Initial concept and basic pipeline setup |
+| v1 | Motion detection implemented |
+| v2 | Object tracking introduced |
+| v3 | Dashboard integration |
+| v4 | Backend system (Flask API) developed |
+| v5 | Event detection and alert system refined |
+| v6 | Optimised real-time system |
+| v7 | Dataset tooling, YOLO experiments, methodology report |
 
 ---
 

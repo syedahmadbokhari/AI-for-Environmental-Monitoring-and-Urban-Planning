@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Model checkpoints (large binary files)
+*.pth
+*.pt
+*.onnx
+
+# Data & datasets
+data/raw/
+data/processed/
+*.zip
+*.csv
+*.json
+!dashboard/config.json
+
+# Logs & snapshots
+logs/*.jsonl
+dashboard/snapshots/
+dashboard/logs/
+snapshots/
+
+# Videos
+videos/*.mp4
+videos/*.avi
+videos/*.mov
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Presentation & office files
+*.pptx
+*.docx
+*.xlsx

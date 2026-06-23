@@ -1,0 +1,30 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# config.yaml — Central configuration for the CCTV Dumping Detection System
+# Override any value here instead of passing CLI flags each time.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Model ────────────────────────────────────────────────────────────────────
+model_path: models/best_model.pth
+threshold: 0.5             # Trash confidence threshold (0.0–1.0)
+
+# ── CLI demo (main.py) ───────────────────────────────────────────────────────
+video_path: videos/video.mp4
+process_every_n: 3         # Process every Nth frame (1 = every frame)
+process_width: 640         # Downscale width for detection (0 = no downscale)
+
+# ── Background subtraction (Stage 1) ─────────────────────────────────────────
+bg_history: 500            # Number of frames used to build the background model
+bg_var_threshold: 50       # Pixel variance threshold for foreground detection
+min_area: 500              # Minimum contour area (px²) to keep as a detection
+
+# ── Object tracking (Stage 2) ────────────────────────────────────────────────
+max_distance: 50.0         # Max centroid distance (px) to match detections to tracks
+max_missed: 15             # Frames a track can go unmatched before being dropped
+stationary_distance: 2.0  # Max centroid movement (px) to count as stationary
+stationary_min_frames: 30  # Frames stationary before triggering an event
+
+# ── Flask backend (dashboard/app.py) ─────────────────────────────────────────
+flask_host: "0.0.0.0"
+flask_port: 5000
+flask_debug: false
+jpeg_quality: 70           # MJPEG stream quality (10–100)
