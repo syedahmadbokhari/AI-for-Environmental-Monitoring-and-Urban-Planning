@@ -132,6 +132,15 @@ ai-for-environmental-monitoring-and-urban-planning/
 | v6 | Optimised real-time system |
 | v7 | Dataset tooling, YOLO experiments, methodology report |
 
+## Evaluation
+Full evaluation reports are available in [docs/evaluation/](docs/evaluation/):
+
+- [Evaluation Strategy](docs/evaluation/Evaluation%20Strategy.docx)
+- [Evaluation of the Classifier](docs/evaluation/Evaluation%20of%20the%20Classifier.docx)
+- [Evaluation of the System](docs/evaluation/Evaluation%20of%20the%20System.docx)
+- [Evaluation Notebook](docs/evaluation/Evaluation.ipynb)
+
+
 ---
 
 ## ⚖️ Ethical Considerations
