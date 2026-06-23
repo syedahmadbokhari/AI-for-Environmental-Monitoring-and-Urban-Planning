@@ -1,0 +1,9 @@
+The dataset used in this project was sourced from Roboflow:
+
+YOLOv7 Trash Dataset: https://universe.roboflow.com/yolov7-trash-detection-group/yolov7-trash-dataset-v5-05-04-2023
+
+Due to file size limitations, the dataset is not included in this repository. Instead, it is stored externally on Google Drive:
+
+Dataset Access: https://drive.google.com/drive/folders/1oCQbCwR5qiHbGyEurkicpqj5FfZpLWQr
+
+The dataset is provided in YOLO format and was preprocessed using a custom conversion script (yolo_to_classifier.py) to generate a binary classification dataset (trash / no_trash) for model training.
