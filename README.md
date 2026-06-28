@@ -224,7 +224,6 @@ Syed Bokhari, Sabal Nemkul, Thatsara Abesooriya
 ---
 
 ## 📄 License
-
-This project is developed for educational and research purposes.
-(Add your license here, e.g., MIT License)
+This project is licensed under the **MIT License** — see [LICENSE](LICENSE) file for details.
+Developed for educational and research purposes.
 
