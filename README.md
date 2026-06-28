@@ -143,6 +143,51 @@ Full evaluation reports are available in [docs/evaluation/](docs/evaluation/):
 
 ---
 
+## 🧪 Testing
+
+A comprehensive pytest test suite covers all major system components.
+
+### Test Coverage
+
+| Test File | Component Tested | Tests |
+|-----------|-----------------|-------|
+| `tests/test_classifier.py` | MobileNetV3 model — architecture, inference, batching, determinism | 12 |
+| `tests/test_pipeline.py` | 4-stage pipeline — MOG2, tracker, event detection, ROI classification | 20 |
+| `tests/test_api.py` | Flask REST API — all routes, error handling, schema validation | 13 |
+| `tests/test_config.py` | config.yaml — structure, value ranges, model file existence | 9 |
+
+### Running the Tests
+
+Install dependencies:
+```bash
+pip install pytest pytest-cov pyyaml
+```
+
+Run all tests:
+```bash
+pytest tests/ -v
+```
+
+Run without slow benchmarks:
+```bash
+pytest tests/ -v -m "not slow"
+```
+
+Run with coverage report:
+```bash
+pytest tests/ -v --cov=core --cov-report=term-missing
+```
+
+### Test Design Principles
+
+* No real model weights required — classifier tests use random-weight models built inline
+* No video files required — pipeline tests use synthetic numpy frames
+* No HTTP server — API tests use Flask's built-in test client
+* Isolated — no shared state between tests; each test is fully independent
+* Fast — all non-benchmark tests complete in under 5 seconds
+
+---
+
 ## ⚖️ Ethical Considerations
 
 * No facial recognition or identity tracking
