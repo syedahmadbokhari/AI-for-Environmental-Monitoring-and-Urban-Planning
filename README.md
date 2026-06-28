@@ -10,12 +10,20 @@ An AI-based real-time monitoring system designed to detect illegal dumping using
 - [Key Features](#️-key-features)
 - [System Pipeline](#️-system-pipeline)
 - [System Architecture](#️-system-architecture)
+- [Development Methodology](#development-methodology)
+  - [CDIO Phases](#cdio-phases)
+  - [Project Management](#project-management)
+- [User Journey](#user-journey)
 - [Tech Stack](#️-tech-stack)
 - [Installation](#️-installation)
 - [Usage](#️-usage)
 - [Project Structure](#-project-structure)
 - [Version Evolution](#-version-evolution)
 - [Evaluation](#evaluation)
+  - [Evaluation Methodology](#evaluation-methodology)
+  - [Performance Metrics](#performance-metrics)
+  - [Key Findings](#key-findings)
+  - [Analysis](#analysis)
 - [Testing](#-testing)
 - [Ethical Considerations](#️-ethical-considerations)
 - [Impact](#-impact)
@@ -59,7 +67,7 @@ By combining computer vision and deep learning, the system automatically detects
 
 ---
 
-# 🏗️ System Architecture
+## 🏗️ System Architecture
 
 ![Architecture](diagrams/System%20Architecture%20v2.png)
 
@@ -68,6 +76,70 @@ By combining computer vision and deep learning, the system automatically detects
 ## 🧩 Project Architecture Diagram
 
 ![Project Architecture](diagrams/Project%20Architecture%20Diagram.png)
+
+---
+
+## Development Methodology
+
+This project was developed over **5.5 months** using the **CDIO (Conceive-Design-Implement-Operate) framework** combined with **Agile Project Management**.
+
+### CDIO Phases
+
+**Conceive Phase**
+- Identified illegal dumping as a key issue
+- Defined system requirements with stakeholders
+- Goal: real-time automated detection
+
+**Design Phase**
+- Developed the system architecture for monitoring
+- Motion detection and object tracking as the approach
+- MobileNetV3 to classify objects as waste or non-waste
+- Event generation (timestamp, confidence, snapshot)
+- Backend system integration
+- Dashboard for visualising alerts, trends, and GIS data
+
+**Implementation Phase**
+- Model detects litter in real time
+- Detected objects shown with label and confidence
+- Events logged on the dashboard
+- Multiple CCTV feeds demonstrate simultaneous detection and alerts
+
+**Results & Evaluation**
+- Full CCTV pipeline evaluated using 3 real-world test videos
+- System performance measured using event-based detection metrics
+- Model achieved:
+  - Accuracy: 75%
+  - Recall: 60% (detects most trash events)
+  - Precision: 21% (many false alarms)
+
+**Operate Phase**
+- Detected events displayed on dashboard with confidence score, timestamp, and snapshot
+- Real-time monitoring of CCTV feeds
+- Alerts generated for detected waste
+- GIS visualisation of detected waste locations
+
+### Project Management
+
+- **Agile development** with iterative sprints
+- **Modular Approach**: AI, backend, dashboard
+- **Continuous testing** ensured reliability
+
+---
+
+## User Journey
+
+![User Journey Diagram](diagrams/user_journey_diagram.png)
+
+The system operates through a continuous, officer-driven feedback loop:
+
+1. **Monitor** — Officer selects CCTV feeds on the dashboard
+2. **AI Processing** — Motion detection, object tracking, and classification run continuously in the background
+3. **Event Generated** — When waste is detected, an event is created with a snapshot, confidence score, timestamp, and GIS location
+4. **Alert Displayed** — The dashboard shows a real-time alert with a red bounding box, confidence score, and incident location
+5. **Officer Decides** — Officer reviews the alert and chooses to confirm (true positive), dismiss (false alarm), or escalate (hazardous)
+6. **Model Improves** — Dismissed alerts are collected as retraining data, reducing false positives over time
+
+This feedback loop is critical: the system learns from officer decisions, enabling continuous improvement. As false alerts decrease, officers gain confidence in the system, and patrol routes are optimized based on detected hotspots shown on the GIS map.
 
 ---
 
@@ -110,33 +182,53 @@ Then open `http://localhost:5000` in your browser.
 ---
 
 ## 📁 Project Structure
-
-```
 ai-for-environmental-monitoring-and-urban-planning/
+
 │
+
 ├── core/                    # Core detection modules
-│   ├── __init__.py
+
+│   ├── init.py
+
 │   ├── classifier.py        # MobileNetV3 inference
+
 │   └── pipeline.py          # 4-stage detection pipeline + CameraPipeline
+
 │
+
 ├── dashboard/               # Flask backend + frontend
+
 │   └── app.py               # REST API + MJPEG streams + SSE events
+
 │
+
 ├── data/                    # Dataset (raw + processed)
+
 ├── diagrams/                # System architecture diagrams
+
 ├── docs/                    # Design, evaluation, ethics, PM documents
+
 ├── logs/                    # Runtime event logs
+
 ├── models/                  # Trained model checkpoints (MobileNetV3)
+
 ├── training/                # Model training scripts (train.ipynb)
+
 ├── videos/                  # Input video files (add your own here)
+
 │
+
 ├── archive/                 # Prototype versions v0–v7 (historical reference)
+
 │
+
 ├── config.yaml              # Central configuration (all tunable parameters)
+
 ├── main.py                  # CLI demo entry point (single video)
+
 ├── requirements.txt
+
 └── README.md
-```
 
 ---
 
@@ -153,14 +245,61 @@ ai-for-environmental-monitoring-and-urban-planning/
 | v6 | Optimised real-time system |
 | v7 | Dataset tooling, YOLO experiments, methodology report |
 
+---
+
 ## Evaluation
+
+### Evaluation Methodology
+
+The system was evaluated on **3 test videos** using a manual observation-based approach. Since large-scale annotated datasets for illegal dumping are unavailable, evaluation was conducted by:
+1. Running each video through the system
+2. Recording system predictions (trash/no trash)
+3. Manually observing actual dumping events in the video
+4. Comparing system output against observed ground truth
+
+### Performance Metrics
+
+| Metric | Value |
+|--------|-------|
+| **Accuracy** | 75% |
+| **Precision** | 21% |
+| **Recall** | 60% |
+| **F1-Score** | 0.31 |
+
+**Confusion Matrix:**
+- True Positives (TP): 3 (correctly detected dumping events)
+- False Positives (FP): 11 (false dumping alerts)
+- False Negatives (FN): 2 (missed dumping events)
+- True Negatives (TN): 42 (correctly identified non-dumping)
+
+### Key Findings
+
+**Strengths:**
+- **High Recall (60%):** System detects majority of true dumping incidents
+- **Functional Framework:** Motion detection + tracking + temporal filtering provides workable detection pipeline
+- **Real-time Capability:** System operates in real time on CCTV footage
+
+**Limitations:**
+- **High False Positives (FP = 11):** System misclassifies non-dumping scenarios (bags, shadows, clutter) as dumping, leading to alert fatigue
+- **Small Dataset:** Evaluation on only 3 videos; results are indicative rather than definitive
+- **Training Data Bias:** Classifier trained on general object detection; does not capture CCTV-specific challenges (low resolution, compression, variable lighting)
+- **Low Precision (21%):** Trade-off between sensitivity and specificity; prioritizes detecting events over reducing false alarms
+
+### Analysis
+
+The primary challenge is **limited representative training data**, not system architecture. Low precision stems from:
+- Difficulty distinguishing waste from visually similar objects
+- Lack of CCTV-specific negative samples (bags, shadows, etc.)
+- Variability in lighting and camera angles not represented in training data
+
+The high recall (60%) with low precision (21%) indicates the system is biased towards sensitivity—acceptable for safety-critical monitoring where missing an event is costly, but would require post-processing or officer review to reduce practical false alerts.
+
 Full evaluation reports are available in [docs/evaluation/](docs/evaluation/):
 
 - [Evaluation Strategy](docs/evaluation/Evaluation%20Strategy.docx)
 - [Evaluation of the Classifier](docs/evaluation/Evaluation%20of%20the%20Classifier.docx)
 - [Evaluation of the System](docs/evaluation/Evaluation%20of%20the%20System.docx)
 - [Evaluation Notebook](docs/evaluation/Evaluation.ipynb)
-
 
 ---
 
@@ -231,10 +370,12 @@ pytest tests/ -v --cov=core --cov-report=term-missing
 
 ## 🔮 Future Improvements
 
-* Integration of advanced models (e.g., YOLO)
-* Cloud deployment for scalability
-* Edge AI optimisation
-* Improved dataset diversity
+- Cloud deployment for scalability
+- Edge AI optimisation
+- Collection of CCTV-specific dumping datasets with diverse environmental conditions
+- Integration of advanced detection models (YOLOv8, temporal action recognition)
+- Threshold tuning to balance precision and recall per deployment site
+- Improved feature representation for trash-like objects
 
 ---
 
@@ -245,6 +386,7 @@ Syed Bokhari, Sabal Nemkul, Thatsara Abesooriya
 ---
 
 ## 📄 License
-This project is licensed under the **MIT License** — see [LICENSE](LICENSE) file for details.
-Developed for educational and research purposes.
 
+This project is licensed under the **MIT License** — see [LICENSE](LICENSE) file for details.
+
+Developed for educational and research purposes.
