@@ -63,8 +63,8 @@ By combining computer vision and deep learning, the system automatically detects
 ## ▶️ Installation
 
 ```bash
-git clone https://github.com/tsabesoo/ai-for-environmental-monitoring-and-urban-planning.git
-cd ai-for-environmental-monitoring-and-urban-planning
+git clone https://github.com/syedahmadbokhari/AI-for-Environmental-Monitoring-and-Urban-Planning.git
+cd AI-for-Environmental-Monitoring-and-Urban-Planning
 pip install -r requirements.txt
 ```
 
