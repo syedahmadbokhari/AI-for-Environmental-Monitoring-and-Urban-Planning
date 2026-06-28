@@ -4,6 +4,27 @@ An AI-based real-time monitoring system designed to detect illegal dumping using
 
 ---
 
+## 📋 Table of Contents
+
+- [Overview](#-overview)
+- [Key Features](#️-key-features)
+- [System Pipeline](#️-system-pipeline)
+- [System Architecture](#️-system-architecture)
+- [Tech Stack](#️-tech-stack)
+- [Installation](#️-installation)
+- [Usage](#️-usage)
+- [Project Structure](#-project-structure)
+- [Version Evolution](#-version-evolution)
+- [Evaluation](#evaluation)
+- [Testing](#-testing)
+- [Ethical Considerations](#️-ethical-considerations)
+- [Impact](#-impact)
+- [Future Improvements](#-future-improvements)
+- [Authors](#‍-authors)
+- [License](#-license)
+
+---
+
 ## 🚀 Overview
 
 Illegal dumping is a growing urban issue causing environmental damage and increased operational costs.
